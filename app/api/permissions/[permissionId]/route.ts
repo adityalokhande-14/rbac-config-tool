@@ -14,7 +14,7 @@ export async function PUT(
   const auth = jwtMiddleware(req);
   if (auth instanceof NextResponse) return auth;
 
-  const { permissionId } = await context.params; // ✅ IMPORTANT
+  const { permissionId } = await context.params; // ✅ correct
 
   try {
     const { action, resource } = await req.json();
@@ -45,27 +45,20 @@ export async function PUT(
  */
 export async function DELETE(
   req: Request,
-  context: { params: { permissionId: string } }
+  context: { params: Promise<{ permissionId: string }> } // ✅ FIXED
 ) {
   const auth = jwtMiddleware(req);
   if (auth instanceof NextResponse) return auth;
 
-  const { permissionId } = await context.params;
-
-  if (!permissionId) {
-    return NextResponse.json(
-      { error: "permissionId is required" },
-      { status: 400 }
-    );
-  }
+  const { permissionId } = await context.params; // ✅ correct
 
   try {
-    // 1️⃣ Remove permission from all roles
+    // Remove from role_permissions first (FK safe)
     await prisma.rolePermission.deleteMany({
       where: { permissionId },
     });
 
-    // 2️⃣ Now delete the permission itself
+    // Then delete permission
     await prisma.permission.delete({
       where: { id: permissionId },
     });
