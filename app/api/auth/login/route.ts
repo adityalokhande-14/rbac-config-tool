@@ -3,13 +3,13 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 
-import { NextResponse } from "next/server";
+import {NextRequest , NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { prisma } from "@/lib/prisma";
 import { generateAccessToken, generateRefreshToken } from "@/lib/auth";
 
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     console.log("LOGIN API HIT");
 

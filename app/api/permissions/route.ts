@@ -1,7 +1,9 @@
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
-import { NextResponse } from "next/server";
+
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { jwtMiddleware } from "@/lib/jwtMiddleware";
 
@@ -9,7 +11,7 @@ import { jwtMiddleware } from "@/lib/jwtMiddleware";
  * CREATE PERMISSION
  * POST /api/permissions
  */
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   console.log("PERMISSION POST HIT");
 
   // 1️⃣ Check JWT
@@ -52,7 +54,7 @@ export async function POST(req: Request) {
  * LIST PERMISSIONS
  * GET /api/permissions
  */
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   //  Protect route
   const auth = jwtMiddleware(req);
   if (auth instanceof NextResponse) return auth;

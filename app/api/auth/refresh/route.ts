@@ -3,10 +3,10 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { verifyRefreshToken, generateAccessToken } from "@/lib/auth";
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const { refreshToken } = await req.json();
 

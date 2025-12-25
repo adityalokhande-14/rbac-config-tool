@@ -1,11 +1,12 @@
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { jwtMiddleware } from "@/lib/jwtMiddleware";
 import { hasPermission } from "@/lib/rbac";
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   // 1️⃣ Authenticate user
   const auth = jwtMiddleware(req);
   if (auth instanceof NextResponse) return auth;
