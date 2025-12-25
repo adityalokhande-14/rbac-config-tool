@@ -1,36 +1,144 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🔐 RBAC Configuration Tool – Full Stack Assignment
 
-## Getting Started
+A production-ready **Role-Based Access Control (RBAC)** configuration tool built using **Next.js, Prisma, PostgreSQL, and JWT authentication**.
 
-First, run the development server:
+This project allows administrators to securely manage **users, roles, permissions**, and their relationships through a clean UI.
+
+---
+
+## 🚀 Live Demo
+
+🔗 **Live URL:**  
+https://rbac-config-tool-seven.vercel.app
+
+---
+
+## 🧠 What is RBAC? (Explain Like I’m 10)
+
+RBAC means:
+- People get **roles** (like Admin, Editor)
+- Roles have **permissions** (like create, read, delete)
+- Users can only do what their role allows
+
+👉 This keeps systems **secure and organized**.
+
+---
+
+## 🎯 Why This Project Is Important
+
+In real-world applications:
+- Not every user should access everything
+- RBAC prevents security issues
+- Used in **admin panels, SaaS apps, enterprise software**
+
+This project shows:
+- Authentication knowledge
+- Database design skills
+- Secure backend logic
+- Clean frontend architecture
+
+---
+
+## 🛠 Tech Stack
+
+### Frontend
+- **Next.js 16 (App Router)**
+- **TypeScript**
+- **Shadcn UI + Tailwind CSS**
+
+### Backend
+- **Next.js API Routes**
+- **JWT Authentication**
+- **bcryptjs (password hashing)**
+
+### Database
+- **PostgreSQL**
+- **Prisma ORM**
+
+### Deployment
+- **Vercel**
+- **Prisma Generate during build**
+
+---
+
+## 🔐 Authentication Flow
+
+1. User signs up with email & password
+2. Password is hashed using bcrypt
+3. User logs in
+4. JWT access token is issued
+5. Token is stored securely in **HTTP-only cookies**
+6. Protected routes validate JWT before access
+
+---
+
+## 📂 Database Schema Overview
+
+### Tables:
+- `users`
+- `roles`
+- `permissions`
+- `user_roles` (many-to-many)
+- `role_permissions` (many-to-many)
+
+Designed exactly as required in the assignment.
+
+---
+
+## ⚙️ Core Features Implemented
+
+### ✅ User Authentication
+- Signup
+- Login
+- Logout
+- JWT-based session handling
+
+### ✅ Permission Management
+- Create permissions
+- View permissions
+- Assign permissions to roles
+
+### ✅ Role Management
+- Create roles
+- View roles
+- Assign permissions to roles
+
+### ✅ Role ↔ Permission Mapping
+- Visual role permission assignment
+- Persisted in database
+- Secure API endpoints
+
+---
+
+## 🧪 Test Credentials
+
+Use the following to test the app:
+Email: test@example.com
+Password: 123456
+
+Email: a@example.com
+Password:223344
+
+
+---
+
+## 🧑‍💻 How to Run Locally
 
 ```bash
+git clone <repo-url>
+cd rbac-config-tool
+npm install
+npx prisma generate
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Open:  http://localhost:3000
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+For Viewing Database: Use Prisma Studio for this run npx prisma studio in terminal , it will open at http://localhost:5555 in browser.
 
-## Learn More
+Author:
+Aditya Lokhande
+Full Stack Developer Intern Candidate.
+ 
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

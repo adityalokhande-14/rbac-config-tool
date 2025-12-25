@@ -13,9 +13,7 @@ export default function RolesPage() {
 
   useEffect(() => {
     fetch("/api/roles", {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-      },
+      credentials: "include",
     })
       .then((res) => res.json())
       .then(setRoles);

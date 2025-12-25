@@ -1,11 +1,21 @@
-export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
-
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 export async function POST() {
-  return NextResponse.json({
-    message: "Logout successful. Please clear tokens on client.",
+  const response = NextResponse.redirect(
+    new URL("/login", process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000")
+  );
+
+  response.cookies.set("accessToken", "", {
+    httpOnly: true,
+    expires: new Date(0),
+    path: "/",
   });
+
+  response.cookies.set("refreshToken", "", {
+    httpOnly: true,
+    expires: new Date(0),
+    path: "/",
+  });
+
+  return response;
 }
