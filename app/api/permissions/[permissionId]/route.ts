@@ -11,12 +11,12 @@ import { jwtMiddleware } from "@/lib/jwtMiddleware";
  */
 export async function PUT(
   req: NextRequest,
-  context: { params: Promise<{ permissionId: string }> }
+  context: { params: { permissionId: string } }
 ) {
-  const auth = jwtMiddleware(req);
+  const auth = jwtMiddleware(); // ✅ FIXED
   if (auth instanceof NextResponse) return auth;
 
-  const { permissionId } = await context.params; // ✅ correct
+  const { permissionId } = context.params; // ✅ FIXED
 
   try {
     const { action, resource } = await req.json();
@@ -47,20 +47,18 @@ export async function PUT(
  */
 export async function DELETE(
   req: NextRequest,
-  context: { params: Promise<{ permissionId: string }> } // ✅ FIXED
+  context: { params: { permissionId: string } }
 ) {
-  const auth = jwtMiddleware(req);
+  const auth = jwtMiddleware(); // ✅ FIXED
   if (auth instanceof NextResponse) return auth;
 
-  const { permissionId } = await context.params; // ✅ correct
+  const { permissionId } = context.params; // ✅ FIXED
 
   try {
-    // Remove from role_permissions first (FK safe)
     await prisma.rolePermission.deleteMany({
       where: { permissionId },
     });
 
-    // Then delete permission
     await prisma.permission.delete({
       where: { id: permissionId },
     });
@@ -69,8 +67,6 @@ export async function DELETE(
       message: "Permission deleted successfully",
     });
   } catch (error: any) {
-    console.error("DELETE PERMISSION ERROR:", error);
-
     return NextResponse.json(
       {
         error: "Failed to delete permission",
