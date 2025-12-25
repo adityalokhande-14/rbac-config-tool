@@ -2,8 +2,13 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { verifyAccessToken } from "@/lib/auth";
 
-export async function jwtMiddleware() {
-  const cookieStore = await cookies(); // ✅ MUST await
+/**
+ * JWT Guard
+ * - returns null → authorized
+ * - returns NextResponse → unauthorized
+ */
+export function jwtMiddleware() {
+  const cookieStore = cookies() as any; // TS-safe for Next 16
   const token = cookieStore.get("accessToken")?.value;
 
   if (!token) {
@@ -14,8 +19,8 @@ export async function jwtMiddleware() {
   }
 
   try {
-    const decoded = verifyAccessToken(token);
-    return decoded;
+    verifyAccessToken(token); // ❗ DO NOT return decoded
+    return null;
   } catch {
     return NextResponse.json(
       { error: "Invalid or expired token" },
