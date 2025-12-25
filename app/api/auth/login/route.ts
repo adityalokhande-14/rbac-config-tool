@@ -3,7 +3,7 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 
-import {NextRequest , NextResponse } from "next/server";
+import {NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { prisma } from "@/lib/prisma";
 import { generateAccessToken, generateRefreshToken } from "@/lib/auth";
