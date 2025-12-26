@@ -12,19 +12,19 @@ type Permission = {
 };
 
 export default function RolePermissionsPage() {
-  const { roleId } = useParams();
+  const params = useParams();
+  const roleId = params.roleId as string;
+
   const [permissions, setPermissions] = useState<Permission[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
-  const [loading, setLoading] = useState(false);
 
-  // Fetch all permissions
   useEffect(() => {
     fetch("/api/permissions")
       .then((res) => res.json())
       .then(setPermissions);
   }, []);
 
-  const togglePermission = (id: string) => {
+  const toggle = (id: string) => {
     setSelected((prev) =>
       prev.includes(id)
         ? prev.filter((p) => p !== id)
@@ -33,8 +33,6 @@ export default function RolePermissionsPage() {
   };
 
   const savePermissions = async () => {
-    setLoading(true);
-
     const res = await fetch(
       `/api/roles/${roleId}/permissions`,
       {
@@ -44,13 +42,12 @@ export default function RolePermissionsPage() {
       }
     );
 
-    if (res.ok) {
-      toast.success("Permissions saved successfully");
-    } else {
+    if (!res.ok) {
       toast.error("Failed to save permissions");
+      return;
     }
 
-    setLoading(false);
+    toast.success("Permissions assigned successfully");
   };
 
   return (
@@ -59,7 +56,7 @@ export default function RolePermissionsPage() {
         Assign Permissions
       </h1>
 
-      <div className="space-y-2 mb-6">
+      <div className="space-y-2">
         {permissions.map((p) => (
           <label
             key={p.id}
@@ -68,17 +65,15 @@ export default function RolePermissionsPage() {
             <input
               type="checkbox"
               checked={selected.includes(p.id)}
-              onChange={() => togglePermission(p.id)}
+              onChange={() => toggle(p.id)}
             />
-            <span>
-              {p.action} : {p.resource}
-            </span>
+            {p.action} : {p.resource}
           </label>
         ))}
       </div>
 
-      <Button onClick={savePermissions} disabled={loading}>
-        {loading ? "Saving..." : "Save Permissions"}
+      <Button className="mt-4" onClick={savePermissions}>
+        Save Permissions
       </Button>
     </div>
   );

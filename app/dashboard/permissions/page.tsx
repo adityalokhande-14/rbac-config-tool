@@ -68,8 +68,9 @@ export default function PermissionsPage() {
   };
 
   return (
-    <div>
-      <div className="flex justify-between items-center mb-6">
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Permissions</h1>
 
         <Dialog open={open} onOpenChange={setOpen}>
@@ -82,7 +83,7 @@ export default function PermissionsPage() {
               <DialogTitle>Create Permission</DialogTitle>
             </DialogHeader>
 
-            <div className="space-y-4">
+            <div className="space-y-4 mt-4">
               <Input
                 placeholder="Action (e.g. edit)"
                 value={action}
@@ -93,40 +94,60 @@ export default function PermissionsPage() {
                 value={resource}
                 onChange={(e) => setResource(e.target.value)}
               />
+
               <Button onClick={createPermission} className="w-full">
-                Save
+                Save Permission
               </Button>
             </div>
           </DialogContent>
         </Dialog>
       </div>
 
-      <table className="w-full border">
-        <thead>
-          <tr>
-            <th className="border p-2">Action</th>
-            <th className="border p-2">Resource</th>
-            <th className="border p-2">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {permissions.map((p) => (
-            <tr key={p.id}>
-              <td className="border p-2">{p.action}</td>
-              <td className="border p-2">{p.resource}</td>
-              <td className="border p-2">
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  onClick={() => deletePermission(p.id)}
-                >
-                  Delete
-                </Button>
-              </td>
+      {/* Table Card */}
+      <div className="rounded-lg border bg-white shadow-sm">
+        <table className="w-full">
+          <thead className="bg-gray-50 border-b">
+            <tr>
+              <th className="text-left p-3">Action</th>
+              <th className="text-left p-3">Resource</th>
+              <th className="text-right p-3">Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {permissions.length === 0 && (
+              <tr>
+                <td
+                  colSpan={3}
+                  className="text-center text-gray-500 p-6"
+                >
+                  No permissions created yet
+                </td>
+              </tr>
+            )}
+
+            {permissions.map((p) => (
+              <tr
+                key={p.id}
+                className="border-t hover:bg-gray-50"
+              >
+                <td className="p-3 font-medium">
+                  {p.action}
+                </td>
+                <td className="p-3">{p.resource}</td>
+                <td className="p-3 text-right">
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    onClick={() => deletePermission(p.id)}
+                  >
+                    Delete
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
