@@ -13,7 +13,7 @@ https://rbac-config-tool-seven.vercel.app
 
 ---
 
-## 🧠 What is RBAC? (Explain Like I’m 10)
+## 🧠 What is RBAC?
 
 RBAC means:
 - People get **roles** (like Admin, Editor)
